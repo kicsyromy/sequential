@@ -6,8 +6,12 @@
 class JsonFormat
 {
 public:
+    typedef std::vector<nlohmann::json> ArrayType;
+
+public:
     JsonFormat() : json_() {}
     JsonFormat(const nlohmann::json &json) : json_(json) { }
+    JsonFormat(const std::string &json) : json_() { json_ = nlohmann::json::parse(json); }
 
 public:
     template <typename ValueType>
@@ -29,9 +33,30 @@ public:
         return value;
     }
 
-    nlohmann::json output() const
+    std::size_t length() const
+    {
+        std::size_t length = 0;
+        if (json_.is_array())
+        {
+            length = json_.size();
+        }
+
+        return length;
+    }
+
+    JsonFormat at(std::size_t index) const
+    {
+        return JsonFormat(json_.at(index));
+    }
+
+    inline nlohmann::json output() const
     {
         return json_;
+    }
+
+    inline void clear()
+    {
+        json_.clear();
     }
 
 private:
