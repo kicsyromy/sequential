@@ -44,6 +44,17 @@ public:
         return length;
     }
 
+    void parse(const std::string &text)
+    {
+        json_ = json_.parse(text);
+    }
+
+    void fromJson(const nlohmann::json &json)
+    {
+        json_.clear();
+        json_ = json;
+    }
+
     JsonFormat at(std::size_t index) const
     {
         return JsonFormat(json_.at(index));

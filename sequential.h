@@ -15,6 +15,9 @@
     struct name                                                  \
     {                                                            \
         typedef type value_type;                                 \
+        name() : name##_() {}                                    \
+        name(const type &value) : name##_(value) {}              \
+        name(type &&value) : name##_(std::move(value)) {}        \
         static constexpr const char *string() { return #name; }; \
         inline const type &value() const { return name##_; };    \
         inline type &value() { return name##_; };                \
@@ -205,7 +208,7 @@ struct sequential
                 ::sequential::for_each(element, [&elementFormat](auto &attribute) {
                     from_format(elementFormat, attribute);
                 });
-                array.push_back(element);
+                array.push_back(std::move(element));
             }
             attribute.set_value(std::move(array));
         }
