@@ -135,6 +135,11 @@ public:
         }
     }
 
+    std::size_t rowCount() const
+    {
+        return tableData_.size();
+    }
+
     void removeFormatedRow()
     {
         tableData_.erase(tableData_.begin());
