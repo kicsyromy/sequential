@@ -65,6 +65,17 @@ public:
     {
         if (!columns_.empty())
             columns_.append(", ");
+        columns_.append(fmt::format("{} TEXT", attribute.first));
+
+        if (!query_.empty())
+            query_.append(", ");
+        query_.append(fmt::format("'{}'", attribute.second));
+    }
+
+    void write(const std::pair<const char *, const unsigned char *> &attribute)
+    {
+        if (!columns_.empty())
+            columns_.append(", ");
         columns_.append(fmt::format("{} GLOB", attribute.first));
 
         if (!query_.empty())
@@ -91,7 +102,7 @@ public:
         if (!tableData_.empty())
         {
             auto column = *(tableData_.begin());
-            value = magic_cast(column.at(key), static_cast<ValueType *>(nullptr));
+            value = type_cast(column.at(key), static_cast<ValueType *>(nullptr));
         }
 
         return value;
@@ -161,29 +172,32 @@ private:
         return 0;
     }
 
-    int magic_cast(const std::string &value, int * = nullptr) const
+    int type_cast(const std::string &value, int * = nullptr) const
     {
         return std::stoi(value);
     }
 
-    double magic_cast(const std::string &value, double * = nullptr) const
+    double type_cast(const std::string &value, double * = nullptr) const
     {
         return std::stold(value);
     }
 
-    std::string magic_cast(const std::string &value, std::string * = nullptr) const
+    std::string type_cast(const std::string &value, std::string * = nullptr) const
     {
         return value;
     }
 
-    const char *magic_cast(const std::string &value, const char * = nullptr) const
+    const char *type_cast(const std::string &value, const char ** = nullptr) const
     {
-        /* I have no idea how do deserialize GLOB, */
-        /* just make it faulty and stupid          */
-        return value.c_str();
+        return strdup(value.c_str());
     }
 
-    bool magic_cast(const std::string &value, bool * = nullptr) const
+    const unsigned char *type_cast(const std::string &value, const unsigned char ** = nullptr) const
+    {
+        return (unsigned char *)(strdup(value.c_str()));
+    }
+
+    bool type_cast(const std::string &value, bool * = nullptr) const
     {
         return std::stoi(value);
     }
