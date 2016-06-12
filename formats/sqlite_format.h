@@ -24,7 +24,8 @@ public:
 
     ~SQLiteFormat()
     {
-        sqlite3_close(dbHandle_);
+        if (dbHandle_)
+            sqlite3_close(dbHandle_);
     }
 
 public:
@@ -133,6 +134,7 @@ public:
             if (error)
                 *error = error_;
             sqlite3_free(error_);
+            error_ = nullptr;
             return;
         }
 
@@ -143,6 +145,7 @@ public:
             if (error)
                 *error = error_;
             sqlite3_free(error_);
+            error_ = nullptr;
         }
     }
 
@@ -154,6 +157,22 @@ public:
     void removeFormatedRow()
     {
         tableData_.erase(tableData_.begin());
+    }
+
+    void removeRow(const std::string &columnName, const std::string &columnValue, std::string *error = nullptr)
+    {
+        if (error_ != nullptr)
+            sqlite3_free(error_);
+
+        if (sqlite3_exec(dbHandle_,
+                         fmt::format("DELETE FROM {} WHERE {}={};", table_, columnName, columnValue).c_str(),
+                         nullptr, nullptr, &error_) != SQLITE_OK)
+        {
+            if (error)
+                *error = error_;
+            sqlite3_free(error_);
+            error_ = nullptr;
+        }
     }
 
 private:
