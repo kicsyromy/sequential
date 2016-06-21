@@ -165,7 +165,7 @@ public:
             sqlite3_free(error_);
 
         if (sqlite3_exec(dbHandle_,
-                         fmt::format("DELETE FROM {} WHERE {}={};", table_, columnName, columnValue).c_str(),
+                         fmt::format("DELETE FROM {} WHERE {}='{}';", table_, columnName, columnValue).c_str(),
                          nullptr, nullptr, &error_) != SQLITE_OK)
         {
             if (error)
