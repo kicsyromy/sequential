@@ -23,13 +23,7 @@ public:
     template<typename ValueType>
     const ValueType get(const char *key, const ValueType * = nullptr) const
     {
-        ValueType value;
-        auto it = json_.find(key);
-        if (it != json_.end())
-        {
-            value = it.value();
-        }
-
+        ValueType value = json_.value<ValueType>(key, ValueType());
         return value;
     }
 
