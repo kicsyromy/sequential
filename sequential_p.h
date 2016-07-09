@@ -164,7 +164,7 @@ namespace sequential_private
     template<typename ContainerType>
     struct is_sequence_container<ContainerType,
             typename std::enable_if<
-            is_variable_size_container<ContainerType>::value or
+            is_variable_size_container<ContainerType>::value ||
             is_fixed_size_container<ContainerType>::value
             >::type
             >

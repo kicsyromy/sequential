@@ -108,9 +108,9 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                !sequential_private::has_attributes<Attribute>::value and
-                (!sequential_private::is_sequence_container<typename Attribute::value_type>::value or
-                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value and
+                !sequential_private::has_attributes<Attribute>::value &&
+                (!sequential_private::is_sequence_container<typename Attribute::value_type>::value ||
+                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value &&
                  !sequential_private::has_attributes<typename Attribute::value_type>::value))
             >::type * = nullptr
         >
@@ -121,7 +121,7 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                sequential_private::has_attributes<Attribute>::value and
+                sequential_private::has_attributes<Attribute>::value &&
                 !sequential_private::is_sequence_container<typename Attribute::value_type>::value
             >::type * = nullptr
         >
@@ -138,8 +138,8 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                 !sequential_private::has_attributes<Attribute>::value and
-                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value and
+                 !sequential_private::has_attributes<Attribute>::value &&
+                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value &&
                   sequential_private::has_attributes<typename Attribute::value_type>::value)
             >::type * = nullptr
         >
@@ -160,9 +160,9 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                !sequential_private::has_attributes<Attribute>::value and
-                (!sequential_private::is_sequence_container<typename Attribute::value_type>::value or
-                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value and
+                !sequential_private::has_attributes<Attribute>::value &&
+                (!sequential_private::is_sequence_container<typename Attribute::value_type>::value ||
+                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value &&
                  !sequential_private::has_attributes<typename Attribute::value_type>::value))
             >::type * = nullptr
         >
@@ -173,7 +173,7 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                sequential_private::has_attributes<Attribute>::value and
+                sequential_private::has_attributes<Attribute>::value &&
                 !sequential_private::is_sequence_container<typename Attribute::value_type>::value
             >::type * = nullptr
         >
@@ -188,8 +188,8 @@ struct sequential
 
         template<typename Format, typename Attribute,
             typename std::enable_if<
-                 !sequential_private::has_attributes<Attribute>::value and
-                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value and
+                 !sequential_private::has_attributes<Attribute>::value &&
+                 (sequential_private::is_sequence_container<typename Attribute::value_type>::value &&
                   sequential_private::has_attributes<typename Attribute::value_type>::value)
             >::type * = nullptr
         >
