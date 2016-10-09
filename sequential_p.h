@@ -13,7 +13,7 @@ namespace sequential_private
     template<std::size_t I, typename Tuple, typename F>
     struct for_each_impl
     {
-        static void for_each(Tuple &t, F &f)
+        static constexpr void for_each(Tuple &t, F &f)
         {
             for_each_impl<I - 1, Tuple, F>::for_each(t, f);
             f(std::get<I>(t));
@@ -23,7 +23,7 @@ namespace sequential_private
     template<class Tuple, typename F>
     struct for_each_impl<0, Tuple, F>
     {
-        static void for_each(Tuple &t, F &f)
+        static constexpr void for_each(Tuple &t, F &f)
         {
             f(std::get<0>(t));
         }
@@ -32,7 +32,7 @@ namespace sequential_private
     template<std::size_t I, typename Tuple, typename F>
     struct static_for_each_impl
     {
-        static void static_for_each(F &f)
+        static constexpr void static_for_each(F &f)
         {
             static_for_each_impl<I - 1, Tuple, F>::static_for_each(f);
             typename std::tuple_element<I, Tuple>::type *e = nullptr;
@@ -43,7 +43,7 @@ namespace sequential_private
     template<class Tuple, typename F>
     struct static_for_each_impl<0, Tuple, F>
     {
-        static void static_for_each(F &f)
+        static constexpr void static_for_each(F &f)
         {
             typename std::tuple_element<0, Tuple>::type *e = nullptr;
             f(e);
@@ -51,13 +51,13 @@ namespace sequential_private
     };
 
     template<std::size_t count, class Tuple, typename F>
-    void for_each(Tuple &t, F &&f)
+    void constexpr for_each(Tuple &t, F &&f)
     {
         for_each_impl<count, Tuple, F>::for_each(t, f);
     }
 
     template<std::size_t count, class Tuple, typename F>
-    void static_for_each(F &&f)
+    void constexpr static_for_each(F &&f)
     {
         static_for_each_impl<count, Tuple, F>::static_for_each(f);
     }

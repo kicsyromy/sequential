@@ -44,15 +44,15 @@
     Attributes attributes;                              \
     public:                                             \
     struct has_attributes{};                            \
-    static std::vector<std::string> attribute_names() { \
-        std::vector<std::string> v;                     \
-        v.reserve(std::tuple_size<Attributes>::value);  \
+    static std::vector<const char *> attribute_names() {\
+        std::array<const char *, std::tuple_size<Attributes>::value> names = {}; \
+        std::size_t it = 0;                             \
         sequential_private::static_for_each<std::tuple_size<Attributes>::value -1, Attributes>([&](auto attribute) { \
-            v.push_back(std::remove_pointer<typename std::remove_const<decltype(attribute)>::type>::type::string()); \
+            names[it] = std::remove_pointer<typename std::remove_const<decltype(attribute)>::type>::type::string(); \
+            ++it;                                       \
         });                                             \
-        return std::move(v);                            \
+        return { names.begin(), names.end() };          \
     }
-
 
 struct sequential
 {
