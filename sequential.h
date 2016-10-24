@@ -29,6 +29,9 @@
     const type &get_##name() const {                             \
         return std::get<name>(attributes).value();               \
     }                                                            \
+    type &get_##name() {                                         \
+        return std::get<name>(attributes).value();               \
+    }                                                            \
     void set_##name(const type &value) {                         \
         std::get<name>(attributes).set_value(value);             \
     }                                                            \
