@@ -35,8 +35,7 @@ namespace sequential_private
         static constexpr void static_for_each(F &f)
         {
             static_for_each_impl<I - 1, Tuple, F>::static_for_each(f);
-            typename std::tuple_element<I, Tuple>::type *e = nullptr;
-            f(e);
+            f(static_cast<typename std::tuple_element<I, Tuple>::type *>(nullptr));
         }
     };
 
@@ -45,8 +44,7 @@ namespace sequential_private
     {
         static constexpr void static_for_each(F &f)
         {
-            typename std::tuple_element<0, Tuple>::type *e = nullptr;
-            f(e);
+            f(static_cast<typename std::tuple_element<0, Tuple>::type *>(nullptr));
         }
     };
 
